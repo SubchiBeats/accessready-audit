@@ -1,6 +1,6 @@
 # Architecture
 
-AccessAudit uses a local-first architecture for demos and a Supabase-ready data model for production.
+Access Audit uses a local-first architecture for demos and a Supabase-ready data model for production.
 
 ## Application
 
@@ -16,11 +16,11 @@ AccessAudit uses a local-first architecture for demos and a Supabase-ready data 
 - axe-core is injected into each rendered page.
 - Custom checks run in the browser context.
 - Keyboard explorer records focus order and focus screenshots.
-- Raw artifacts are saved under `.accessaudit/artifacts`.
+- Raw artifacts are saved under `.access-audit/artifacts`.
 
 ## Persistence
 
-- Local demo/dev mode persists JSON in `.accessaudit/data.json`.
+- Local demo/dev mode persists JSON in `.access-audit/data.json`.
 - Supabase schema and RLS policies are provided in `/supabase`.
 - Storage paths are modeled for screenshots, DOM snapshots, axe JSON, reports, and uploaded evidence.
 

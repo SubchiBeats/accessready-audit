@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Responsible-use acknowledgement is required." }, { status: 400 });
   }
 
-  const allowPrivateNetwork = process.env.ACCESSAUDIT_ALLOW_PRIVATE_NETWORK === "true";
+  const allowPrivateNetwork = process.env.ACCESS_AUDIT_ALLOW_PRIVATE_NETWORK === "true";
   const primary = validateScanUrl(parsed.data.primaryUrl, { allowPrivateNetwork });
   if (!primary.ok) return NextResponse.json({ error: primary.reason }, { status: 400 });
 

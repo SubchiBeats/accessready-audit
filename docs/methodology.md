@@ -1,6 +1,6 @@
-# AccessAudit Methodology
+# Access Audit Methodology
 
-AccessAudit is an accessibility audit assistant. It does not certify ADA, WCAG, or Section 508 compliance by automation alone.
+Access Audit is an accessibility audit assistant. It does not certify ADA, WCAG, or Section 508 compliance by automation alone.
 
 ## Automated Phase
 

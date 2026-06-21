@@ -1,8 +1,8 @@
 {
-  "name": "accessaudit",
+  "name": "access-audit",
   "version": "0.1.0",
   "private": true,
-  "description": "AccessAudit: explainable WCAG, ADA, and Section 508 accessibility audit assistant.",
+  "description": "Access Audit: explainable WCAG, ADA, and Section 508 accessibility audit assistant.",
   "packageManager": "pnpm@11.5.3",
   "scripts": {
     "dev": "next dev",

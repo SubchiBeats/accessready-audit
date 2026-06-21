@@ -1,8 +1,8 @@
-# AccessAudit
+# Access Audit
 
-AccessAudit is a production-minded accessibility audit assistant for WCAG, ADA, and Section 508 work. It combines automated browser scanning, axe-core, rendered-DOM crawling, keyboard exploration, visual/manual-review flags, remediation guidance, historical tracking, and exportable reports.
+Access Audit is a production-minded accessibility audit assistant for WCAG, ADA, and Section 508 work. It combines automated browser scanning, axe-core, rendered-DOM crawling, keyboard exploration, visual/manual-review flags, remediation guidance, historical tracking, and exportable reports.
 
-Automated scanning alone does not prove ADA, WCAG, or Section 508 compliance. AccessAudit helps teams identify issues and organize evidence, but final legal compliance requires expert review and, ideally, testing with disabled users and assistive technology users.
+Automated scanning alone does not prove ADA, WCAG, or Section 508 compliance. Access Audit helps teams identify issues and organize evidence, but final legal compliance requires expert review and, ideally, testing with disabled users and assistive technology users.
 
 ## Features
 
@@ -53,14 +53,14 @@ pnpm dev
 
 Open `http://localhost:3000`.
 
-Local demo data is stored in `.accessaudit/data.json` and artifacts are stored in `.accessaudit/artifacts`.
+Local demo data is stored in `.access-audit/data.json` and artifacts are stored in `.access-audit/artifacts`.
 
 ## Live GitHub Pages Demo
 
 This repo includes a mobile-friendly static demo that can be hosted directly by GitHub Pages:
 
 ```text
-https://YOUR_USERNAME.github.io/accessready-audit/
+https://YOUR_USERNAME.github.io/access-audit/
 ```
 
 To publish it:
@@ -82,10 +82,10 @@ See `.env.example`.
 Important values:
 
 - `NEXT_PUBLIC_DEMO_MODE=true`
-- `ACCESSAUDIT_ALLOW_PRIVATE_NETWORK=false`
-- `ACCESSAUDIT_MAX_PAGES=30`
-- `ACCESSAUDIT_SCAN_CONCURRENCY=1`
-- `ACCESSAUDIT_RATE_LIMIT_MS=750`
+- `ACCESS_AUDIT_ALLOW_PRIVATE_NETWORK=false`
+- `ACCESS_AUDIT_MAX_PAGES=30`
+- `ACCESS_AUDIT_SCAN_CONCURRENCY=1`
+- `ACCESS_AUDIT_RATE_LIMIT_MS=750`
 
 Keep `.env` out of git.
 
@@ -151,16 +151,16 @@ The test suite covers scoring, WCAG mappings, SSRF URL validation, scan normaliz
 ```bash
 git init
 git add .
-git commit -m "Initial commit: AccessReady Audit"
+git commit -m "Initial commit: Access Audit"
 git branch -M main
-git remote add origin git@github.com:YOUR_USERNAME/accessready-audit.git
+git remote add origin git@github.com:YOUR_USERNAME/access-audit.git
 git push -u origin main
 ```
 
 HTTPS alternative:
 
 ```bash
-git remote add origin https://github.com/YOUR_USERNAME/accessready-audit.git
+git remote add origin https://github.com/YOUR_USERNAME/access-audit.git
 git push -u origin main
 ```
 

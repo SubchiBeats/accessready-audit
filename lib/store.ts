@@ -16,7 +16,7 @@ import type {
 } from "@/lib/types";
 import { TOOL_VERSION } from "@/lib/constants";
 
-const dataDir = path.join(process.cwd(), ".accessaudit");
+const dataDir = path.join(process.cwd(), ".access-audit");
 const dataPath = path.join(dataDir, "data.json");
 
 let memoryCache: AuditData | undefined;

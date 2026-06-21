@@ -19,7 +19,7 @@ export interface ScannerResult {
 export async function runPlaywrightScan(scan: Scan, config: ScanConfig): Promise<ScannerResult> {
   const [{ chromium }, axeCore] = await Promise.all([import("playwright"), import("axe-core")]);
   const artifactRoot =
-    process.env.ACCESSAUDIT_ARTIFACT_DIR ?? path.join(process.cwd(), ".accessaudit", "artifacts", scan.id);
+    process.env.ACCESS_AUDIT_ARTIFACT_DIR ?? path.join(process.cwd(), ".access-audit", "artifacts", scan.id);
   await mkdir(artifactRoot, { recursive: true });
 
   const browser = await chromium.launch({ headless: true });
@@ -27,7 +27,7 @@ export async function runPlaywrightScan(scan: Scan, config: ScanConfig): Promise
   const normalized: NormalizedFindingInput[] = [];
   const queue = await buildInitialQueue(config);
   const visited = new Set<string>();
-  const maxPages = Math.min(config.maxPages, Number(process.env.ACCESSAUDIT_MAX_PAGES ?? config.maxPages));
+  const maxPages = Math.min(config.maxPages, Number(process.env.ACCESS_AUDIT_MAX_PAGES ?? config.maxPages));
 
   try {
     while (queue.length && visited.size < maxPages) {
@@ -185,7 +185,7 @@ async function buildInitialQueue(config: ScanConfig) {
 
 async function fetchSitemapUrls(sitemapUrl: string) {
   const validation = validateScanUrl(sitemapUrl, {
-    allowPrivateNetwork: process.env.ACCESSAUDIT_ALLOW_PRIVATE_NETWORK === "true"
+    allowPrivateNetwork: process.env.ACCESS_AUDIT_ALLOW_PRIVATE_NETWORK === "true"
   });
   if (!validation.ok) return [];
   const response = await fetch(validation.url);
@@ -205,7 +205,7 @@ async function discoverLinks(page: Page) {
 
 function shouldVisit(url: string, config: ScanConfig) {
   const validation = validateScanUrl(url, {
-    allowPrivateNetwork: process.env.ACCESSAUDIT_ALLOW_PRIVATE_NETWORK === "true",
+    allowPrivateNetwork: process.env.ACCESS_AUDIT_ALLOW_PRIVATE_NETWORK === "true",
     allowedDomains: config.sameDomainOnly ? config.urls.map((item) => new URL(item).hostname) : undefined
   });
   if (!validation.ok) return false;

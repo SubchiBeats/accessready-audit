@@ -1,4 +1,4 @@
--- AccessAudit Row Level Security policies.
+-- Access Audit Row Level Security policies.
 alter table organizations enable row level security;
 alter table user_profiles enable row level security;
 alter table projects enable row level security;

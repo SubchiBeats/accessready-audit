@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   return new Response(csv, {
     headers: {
       "content-type": "text/csv; charset=utf-8",
-      "content-disposition": "attachment; filename=\"accessaudit-findings.csv\""
+      "content-disposition": "attachment; filename=\"access-audit-findings.csv\""
     }
   });
 }

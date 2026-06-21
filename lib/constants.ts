@@ -1,6 +1,6 @@
 import type { ComplianceMode, Severity } from "@/lib/types";
 
-export const APP_NAME = "AccessAudit";
+export const APP_NAME = "Access Audit";
 export const TOOL_VERSION = "0.1.0";
 
 export const complianceModeLabels: Record<ComplianceMode, string> = {
@@ -27,7 +27,7 @@ export const severityOrder: Severity[] = [
 ];
 
 export const responsibleUseNotice =
-  "Only scan websites and applications that you own or have explicit permission to test. AccessAudit rate-limits crawls, restricts to same-domain by default, and blocks private network targets unless local development explicitly allows them.";
+  "Only scan websites and applications that you own or have explicit permission to test. Access Audit rate-limits crawls, restricts to same-domain by default, and blocks private network targets unless local development explicitly allows them.";
 
 export const complianceDisclaimer =
-  "AccessAudit helps identify accessibility risks and prepare remediation evidence. Automated scanning alone does not prove ADA, WCAG, or Section 508 compliance. Final compliance decisions require expert review and, ideally, testing with disabled users and assistive technologies.";
+  "Access Audit helps identify accessibility risks and prepare remediation evidence. Automated scanning alone does not prove ADA, WCAG, or Section 508 compliance. Final compliance decisions require expert review and, ideally, testing with disabled users and assistive technologies.";

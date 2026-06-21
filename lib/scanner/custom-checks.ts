@@ -260,6 +260,6 @@ export async function runCustomChecks(page: Page, context: CustomCheckContext): 
       fix: check.fix,
       tests: check.tests
     },
-    stepsToReproduce: [`Open ${context.url}.`, "Run AccessAudit custom checks.", check.selector ? `Inspect ${check.selector}.` : "Review the page manually."]
+    stepsToReproduce: [`Open ${context.url}.`, "Run Access Audit custom checks.", check.selector ? `Inspect ${check.selector}.` : "Review the page manually."]
   }));
 }

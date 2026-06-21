@@ -65,7 +65,7 @@ export function buildReportHtml(params: {
   </div>
 
   <h2>Methodology</h2>
-  <p>AccessAudit crawled rendered pages in Chromium, ran axe-core checks, collected DOM snapshots and screenshots, tested desktop and mobile viewports, explored keyboard focus order, and created manual-review tasks for checks automation cannot reliably prove.</p>
+  <p>Access Audit crawled rendered pages in Chromium, ran axe-core checks, collected DOM snapshots and screenshots, tested desktop and mobile viewports, explored keyboard focus order, and created manual-review tasks for checks automation cannot reliably prove.</p>
   <p>URLs scanned: ${pages.length ? pages.map((page) => escapeHtml(page.url)).join(", ") : "No pages recorded for this scan."}</p>
 
   <h2>Recommended Remediation Order</h2>

@@ -1,13 +1,13 @@
 # Deployment
 
-AccessAudit has two deployment targets.
+Access Audit has two deployment targets.
 
 ## GitHub Pages Live Demo
 
 GitHub Pages can host the static demo in `/github-pages`. This is the link you can share from your GitHub repository and open on mobile:
 
 ```text
-https://YOUR_USERNAME.github.io/accessready-audit/
+https://YOUR_USERNAME.github.io/access-audit/
 ```
 
 The static demo supports:
@@ -50,10 +50,10 @@ NEXT_PUBLIC_DEMO_MODE=false
 NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...
-ACCESSAUDIT_ALLOW_PRIVATE_NETWORK=false
-ACCESSAUDIT_MAX_PAGES=30
-ACCESSAUDIT_SCAN_CONCURRENCY=1
-ACCESSAUDIT_RATE_LIMIT_MS=750
+ACCESS_AUDIT_ALLOW_PRIVATE_NETWORK=false
+ACCESS_AUDIT_MAX_PAGES=30
+ACCESS_AUDIT_SCAN_CONCURRENCY=1
+ACCESS_AUDIT_RATE_LIMIT_MS=750
 ```
 
 Keep real scanning behind authentication, quotas, rate limits, and responsible-use terms.

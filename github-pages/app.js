@@ -114,7 +114,7 @@ document.querySelectorAll(".filter").forEach((filter) => {
 document.getElementById("finding-search").addEventListener("input", renderFindings);
 document.getElementById("theme-toggle").addEventListener("click", () => {
   document.body.classList.toggle("dark");
-  localStorage.setItem("accessaudit-theme", document.body.classList.contains("dark") ? "dark" : "light");
+  localStorage.setItem("access-audit-theme", document.body.classList.contains("dark") ? "dark" : "light");
 });
 
 document.getElementById("demo-scan").addEventListener("click", () => {
@@ -125,7 +125,7 @@ document.getElementById("demo-scan").addEventListener("click", () => {
 });
 
 document.getElementById("download-json").addEventListener("click", () => {
-  download("accessaudit-demo.json", JSON.stringify(state, null, 2), "application/json");
+  download("access-audit-demo.json", JSON.stringify(state, null, 2), "application/json");
 });
 
 document.getElementById("download-csv").addEventListener("click", () => {
@@ -135,17 +135,17 @@ document.getElementById("download-csv").addEventListener("click", () => {
       .map((value) => `"${String(value).replaceAll('"', '""')}"`)
       .join(",")
   );
-  download("accessaudit-findings.csv", [header, ...rows].join("\n"), "text/csv");
+  download("access-audit-findings.csv", [header, ...rows].join("\n"), "text/csv");
 });
 
-if (localStorage.getItem("accessaudit-theme") === "dark") {
+if (localStorage.getItem("access-audit-theme") === "dark") {
   document.body.classList.add("dark");
 }
 
 const repoLink = document.getElementById("repo-link");
 if (location.hostname.endsWith("github.io")) {
   const owner = location.hostname.split(".")[0];
-  const repo = location.pathname.split("/").filter(Boolean)[0] || "accessready-audit";
+  const repo = location.pathname.split("/").filter(Boolean)[0] || "access-audit";
   repoLink.href = `https://github.com/${owner}/${repo}`;
 }
 
@@ -154,7 +154,7 @@ renderFindings();
 renderManual();
 
 function loadState() {
-  const stored = localStorage.getItem("accessaudit-demo-state");
+  const stored = localStorage.getItem("access-audit-demo-state");
   if (!stored) return structuredClone(seed);
   try {
     return { ...structuredClone(seed), ...JSON.parse(stored) };
@@ -164,7 +164,7 @@ function loadState() {
 }
 
 function saveState() {
-  localStorage.setItem("accessaudit-demo-state", JSON.stringify(state));
+  localStorage.setItem("access-audit-demo-state", JSON.stringify(state));
 }
 
 function showView(id) {

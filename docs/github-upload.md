@@ -1,25 +1,25 @@
 # GitHub Upload
 
-Suggested repository name: `accessready-audit`
+Suggested repository name: `access-audit`
 
 ```bash
 git init
 git add .
-git commit -m "Initial commit: AccessReady Audit"
+git commit -m "Initial commit: Access Audit"
 ```
 
-Create a GitHub repo named `accessready-audit`, then use SSH:
+Create a GitHub repo named `access-audit`, then use SSH:
 
 ```bash
 git branch -M main
-git remote add origin git@github.com:YOUR_USERNAME/accessready-audit.git
+git remote add origin git@github.com:YOUR_USERNAME/access-audit.git
 git push -u origin main
 ```
 
 HTTPS alternative:
 
 ```bash
-git remote add origin https://github.com/YOUR_USERNAME/accessready-audit.git
+git remote add origin https://github.com/YOUR_USERNAME/access-audit.git
 git push -u origin main
 ```
 
@@ -45,7 +45,7 @@ After pushing:
 5. Share:
 
 ```text
-https://YOUR_USERNAME.github.io/accessready-audit/
+https://YOUR_USERNAME.github.io/access-audit/
 ```
 
 GitHub Pages hosts the demo workflow and export UI. The real Playwright scanner requires a Node deployment such as Vercel, Render, Fly.io, Railway, or a container host.

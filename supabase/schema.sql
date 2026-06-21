@@ -1,4 +1,4 @@
--- AccessAudit Supabase schema
+-- Access Audit Supabase schema
 -- Enable pgcrypto for gen_random_uuid().
 create extension if not exists pgcrypto;
 

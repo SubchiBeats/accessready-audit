@@ -1,12 +1,12 @@
 # Security and Responsible Use
 
-AccessAudit is designed for authorized testing.
+Access Audit is designed for authorized testing.
 
 ## Guardrails
 
 - Only `http` and `https` URLs are allowed.
 - Credentials embedded in URLs are rejected.
-- Localhost, loopback, link-local, private IP ranges, multicast, and cloud metadata hosts are blocked unless `ACCESSAUDIT_ALLOW_PRIVATE_NETWORK=true`.
+- Localhost, loopback, link-local, private IP ranges, multicast, and cloud metadata hosts are blocked unless `ACCESS_AUDIT_ALLOW_PRIVATE_NETWORK=true`.
 - Same-domain crawling is enabled by default.
 - Scan requests are rate-limited by configuration.
 - Passwords are not logged. Demo mode stores only whether a secret was provided.
