@@ -47,7 +47,7 @@ async function run(scan: Scan) {
     const config = data.scanConfigs.find((item) => item.id === scan.configId);
     if (!config) throw new Error("Scan configuration not found.");
     const result = await runPlaywrightScan(scan, config);
-    if (job.status === "cancelled") return;
+    if (jobs().get(scan.id)?.status === "cancelled") return;
     await appendScanResults({ scan, findings: result.findings, pages: result.pages, instances: result.instances });
     job.status = "completed";
   } catch (error) {

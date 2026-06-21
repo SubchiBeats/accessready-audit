@@ -35,7 +35,7 @@ export async function exploreKeyboard(page: Page, context: KeyboardContext) {
   for (let index = 0; index < 60; index += 1) {
     await page.keyboard.press("Tab");
     await page.waitForTimeout(40);
-    const step = await page.evaluate<FocusStep | null>((stepIndex) => {
+    const step = await page.evaluate<FocusStep | null, number>((stepIndex) => {
       const active = document.activeElement;
       if (!active || active === document.body || !(active instanceof HTMLElement)) return null;
       const selectorFor = (element: Element) => {

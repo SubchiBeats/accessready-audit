@@ -28,7 +28,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ reportId: 
       printBackground: true,
       margin: { top: "0.5in", bottom: "0.5in", left: "0.45in", right: "0.45in" }
     });
-    return new Response(pdf, {
+    return new Response(new Uint8Array(pdf), {
       headers: {
         "content-type": "application/pdf",
         "content-disposition": `attachment; filename="${report.id}.pdf"`
