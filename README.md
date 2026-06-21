@@ -4,6 +4,12 @@ Access Audit is a production-minded accessibility audit assistant for WCAG, ADA,
 
 Automated scanning alone does not prove ADA, WCAG, or Section 508 compliance. Access Audit helps teams identify issues and organize evidence, but final legal compliance requires expert review and, ideally, testing with disabled users and assistive technology users.
 
+## Live App
+
+- Production app: `https://access-audit-web-production.up.railway.app`
+- Health check: `https://access-audit-web-production.up.railway.app/api/health`
+- Static GitHub Pages demo: `https://subchibeats.github.io/access-audit/`
+
 ## Features
 
 - Dashboard with project scores, open critical issues, scan history, and trend charts.
