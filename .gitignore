@@ -1,0 +1,16 @@
+.next
+node_modules
+.env
+.env*.local
+.accessaudit
+.agents
+.codex
+playwright-report
+test-results
+coverage
+dist
+*.tsbuildinfo
+pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

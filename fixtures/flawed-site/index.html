@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; }
+      .low-contrast { color: #aaa; background: #fff; }
+      .tiny { width: 18px; height: 18px; padding: 0; }
+      .hidden-focus:focus { outline: none; box-shadow: none; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/products">Products</a>
+    </header>
+    <h1>Flawed accessibility fixture</h1>
+    <h3>Skipped heading level</h3>
+    <p class="low-contrast">This text should fail contrast checks.</p>
+    <img src="missing-alt.png" />
+    <form>
+      <input name="email" placeholder="Email" />
+      <button class="hidden-focus"></button>
+      <button class="tiny" aria-label="Tiny target">x</button>
+    </form>
+    <iframe src="about:blank"></iframe>
+    <a href="/annual-report.pdf">Annual report</a>
+    <video src="/demo.mp4"></video>
+  </body>
+</html>

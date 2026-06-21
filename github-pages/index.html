@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#08223d" />
+    <title>AccessAudit Live Demo</title>
+    <meta
+      name="description"
+      content="Mobile-friendly AccessAudit demo for WCAG, ADA, and Section 508 accessibility audit workflows."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">AccessAudit</p>
+        <h1>Accessibility audit assistant</h1>
+      </div>
+      <button id="theme-toggle" class="icon-button" type="button" aria-label="Toggle dark mode">Theme</button>
+    </header>
+
+    <nav class="tabs" aria-label="Primary">
+      <button class="tab is-active" type="button" data-view="dashboard">Dashboard</button>
+      <button class="tab" type="button" data-view="findings">Findings</button>
+      <button class="tab" type="button" data-view="review">Review</button>
+      <button class="tab" type="button" data-view="reports">Reports</button>
+    </nav>
+
+    <main id="main" tabindex="-1">
+      <section class="notice" aria-label="Important limitation">
+        <strong>Important limitation:</strong>
+        This GitHub Pages build is a mobile-friendly live demo and audit planning workspace. Automated scans,
+        Playwright crawling, PDF rendering, Supabase auth, and evidence storage require the full server app.
+        Automated testing alone does not prove ADA, WCAG, or Section 508 compliance.
+      </section>
+
+      <section id="dashboard" class="view is-visible" aria-labelledby="dashboard-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Demo command center</p>
+            <h2 id="dashboard-title">Northstar Retail audit</h2>
+          </div>
+          <button id="demo-scan" class="primary" type="button">Run demo scan</button>
+        </div>
+        <div class="metrics" id="metrics"></div>
+        <div class="panel">
+          <h3>Risk trend</h3>
+          <div id="trend" class="trend" role="img" aria-label="Risk score trend from previous scans"></div>
+        </div>
+        <div class="panel">
+          <h3>Responsible use</h3>
+          <p>
+            Only scan sites you own or have explicit permission to test. The full scanner blocks private-network
+            targets by default, rate-limits crawling, and preserves evidence for expert review.
+          </p>
+        </div>
+      </section>
+
+      <section id="findings" class="view" aria-labelledby="findings-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Findings</p>
+            <h2 id="findings-title">Open issues</h2>
+          </div>
+          <label class="search">
+            <span>Search</span>
+            <input id="finding-search" type="search" placeholder="criterion, selector, issue" />
+          </label>
+        </div>
+        <div class="filter-row" aria-label="Severity filters">
+          <button class="filter is-active" type="button" data-severity="all">All</button>
+          <button class="filter" type="button" data-severity="critical">Critical</button>
+          <button class="filter" type="button" data-severity="serious">Serious</button>
+          <button class="filter" type="button" data-severity="moderate">Moderate</button>
+          <button class="filter" type="button" data-severity="needs-review">Review</button>
+        </div>
+        <div id="finding-list" class="finding-list"></div>
+      </section>
+
+      <section id="review" class="view" aria-labelledby="review-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Manual review</p>
+            <h2 id="review-title">POUR checklist</h2>
+          </div>
+          <p id="review-progress" class="score-pill" aria-live="polite"></p>
+        </div>
+        <div id="manual-list" class="manual-list"></div>
+      </section>
+
+      <section id="reports" class="view" aria-labelledby="reports-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Exports</p>
+            <h2 id="reports-title">Share audit evidence</h2>
+          </div>
+        </div>
+        <div class="panel action-panel">
+          <button id="download-json" class="secondary" type="button">Download JSON</button>
+          <button id="download-csv" class="secondary" type="button">Download CSV</button>
+          <a id="repo-link" class="secondary link-button" href="https://github.com/" rel="noreferrer">View repository</a>
+        </div>
+        <div class="panel">
+          <h3>Production scanner deployment</h3>
+          <p>
+            Use the full Next.js app on Vercel, Render, Fly.io, or another Node host for real scans. GitHub Pages
+            cannot run Playwright workers or API routes.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>AccessAudit demo. Manual review and assistive technology testing remain required.</p>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
