@@ -5,8 +5,8 @@ This is the shortest path to a real hosted Access Audit scanner.
 ## You Do Once
 
 1. Create a Supabase project.
-2. In Supabase SQL editor, run `supabase/schema.sql`.
-3. Then run `supabase/rls.sql`.
+2. In Supabase SQL Editor, paste the contents of `outputs/access-audit-supabase-setup.txt`.
+3. Click **Run** and confirm it says success.
 4. In Supabase Storage, create a private bucket named `access-audit-artifacts`.
 5. Copy these values:
    - Supabase project URL.
@@ -27,7 +27,7 @@ This is the shortest path to a real hosted Access Audit scanner.
 Start command:
 
 ```bash
-pnpm start:web
+npm run start:web
 ```
 
 Environment variables:
@@ -39,7 +39,7 @@ NEXT_PUBLIC_SUPABASE_URL=YOUR_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
 SUPABASE_SERVICE_ROLE_KEY=YOUR_SUPABASE_SERVICE_ROLE_KEY
 ACCESS_AUDIT_STORAGE_BUCKET=access-audit-artifacts
-REDIS_URL=${{Redis.REDIS_URL}}
+REDIS_URL=${{access-audit-redis.REDIS_URL}}
 ACCESS_AUDIT_ALLOW_PRIVATE_NETWORK=false
 ACCESS_AUDIT_MAX_PAGES=30
 ACCESS_AUDIT_SCAN_CONCURRENCY=1
@@ -51,7 +51,7 @@ ACCESS_AUDIT_RATE_LIMIT_MS=750
 Start command:
 
 ```bash
-pnpm start:worker
+npm run start:worker
 ```
 
 Use the same environment variables as the web service.

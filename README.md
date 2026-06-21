@@ -80,8 +80,8 @@ Recommended hands-off path:
 1. Create a Supabase project.
 2. Connect this GitHub repo to Railway.
 3. Add a Railway Redis service.
-4. Deploy one Railway service as `web` with `pnpm start:web`.
-5. Deploy one Railway service as `worker` with `pnpm start:worker`.
+4. Deploy one Railway service as `web` with `npm run start:web`.
+5. Deploy one Railway service as `worker` with `npm run start:worker`.
 6. Paste the Supabase env vars into both services.
 
 The app automatically uses BullMQ when `REDIS_URL` exists and falls back to an in-process queue for local demo mode.
@@ -103,8 +103,8 @@ Keep `.env` out of git.
 ## Supabase Setup
 
 1. Create a Supabase project.
-2. Run `supabase/schema.sql`.
-3. Run `supabase/rls.sql`.
+2. Paste the contents of `outputs/access-audit-supabase-setup.txt` into Supabase SQL Editor.
+3. Click **Run** and confirm Supabase reports success.
 4. Enable Supabase Auth providers.
 5. Create a private storage bucket for evidence and scan artifacts.
 6. Add environment variables:
@@ -148,8 +148,6 @@ The test suite covers scoring, WCAG mappings, SSRF URL validation, scan normaliz
 
 ## Roadmap
 
-- Supabase store adapter and storage uploads.
-- BullMQ/Redis worker mode.
 - Authenticated crawl recipes.
 - Component/template fingerprinting improvements.
 - Visual focus-order map overlay.

@@ -1,0 +1,9 @@
+.access-audit
+.git
+.github
+.next
+node_modules
+outputs
+test-results
+playwright-report
+*.log

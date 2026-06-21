@@ -64,7 +64,7 @@ Railway is the easiest path because the web service, worker service, and Redis s
 6. Set its start command to:
 
 ```bash
-pnpm start:web
+npm run start:web
 ```
 
 7. Add a Redis service in the same Railway project.
@@ -73,7 +73,7 @@ pnpm start:web
 10. Set its start command to:
 
 ```bash
-pnpm start:worker
+npm run start:worker
 ```
 
 11. Add the environment variables below to both the web and worker services.
@@ -83,7 +83,7 @@ pnpm start:worker
 Railway Redis should provide `REDIS_URL`. Add or confirm:
 
 ```bash
-REDIS_URL=${{Redis.REDIS_URL}}
+REDIS_URL=${{access-audit-redis.REDIS_URL}}
 NEXT_PUBLIC_APP_URL=https://your-railway-web-url.up.railway.app
 NEXT_PUBLIC_DEMO_MODE=false
 NEXT_PUBLIC_SUPABASE_URL=...
@@ -96,11 +96,13 @@ ACCESS_AUDIT_SCAN_CONCURRENCY=1
 ACCESS_AUDIT_RATE_LIMIT_MS=750
 ```
 
+If Railway shows `REDIS_URL` as `<empty string>`, it is not connected yet. Edit the variable and set the value to `${{access-audit-redis.REDIS_URL}}`, or use the autocomplete value Railway offers for your Redis service name.
+
 ### How It Works
 
 When a user starts a scan, the web app creates a scan record and places a job in Redis. The worker picks up that job, opens Chromium with Playwright, runs axe/custom/keyboard checks, and stores the normalized findings.
 
-If `REDIS_URL` is missing, Access Audit runs scans in-process. That is fine for local development but not recommended for production.
+If `REDIS_URL` is missing, Access Audit runs scans in-process. That is fine for local development but not recommended for production. If `REDIS_URL` exists but is blank, remove it or replace it with the Railway Redis reference variable.
 
 ## Render Alternative
 

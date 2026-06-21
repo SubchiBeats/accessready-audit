@@ -1,8 +1,9 @@
 import { spawn } from "node:child_process";
+import path from "node:path";
 
 const port = process.env.PORT || "3000";
-const executable = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
-const child = spawn(executable, ["exec", "next", "start", "-p", port], {
+const executable = path.join(process.cwd(), "node_modules", ".bin", process.platform === "win32" ? "next.cmd" : "next");
+const child = spawn(executable, ["start", "-p", port], {
   stdio: "inherit",
   env: process.env
 });
