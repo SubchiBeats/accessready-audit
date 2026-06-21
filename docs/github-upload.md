@@ -30,7 +30,7 @@ Before pushing:
 - Add screenshots or GIFs of dashboard, findings, manual review, and reports.
 - Enable GitHub Actions.
 - Use topics: `accessibility`, `wcag`, `ada-compliance`, `section508`, `axe-core`, `playwright`, `nextjs`, `supabase`.
-- Suggested description: `Explainable WCAG/ADA/Section 508 accessibility audit assistant with Playwright, axe-core, manual review workflows, and exportable reports.`
+- Suggested description: `Hosted accessibility audit workspace for Playwright/axe scans, keyboard checks, manual WCAG review, evidence capture, remediation tracking, and clear risk reports.`
 
 ## Live GitHub Pages Link
 

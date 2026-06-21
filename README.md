@@ -1,8 +1,8 @@
 # Access Audit
 
-Access Audit is a production-minded accessibility audit assistant for WCAG, ADA, and Section 508 work. It combines automated browser scanning, axe-core, rendered-DOM crawling, keyboard exploration, visual/manual-review flags, remediation guidance, historical tracking, and exportable reports.
+Access Audit is a hosted accessibility audit workspace for teams that need more than a quick automated scan. It crawls real pages with Playwright, runs axe-core and custom checks, records keyboard and visual risks, organizes manual WCAG review, captures evidence, tracks remediation work, and turns the results into clear risk reports.
 
-Automated scanning alone does not prove ADA, WCAG, or Section 508 compliance. Access Audit helps teams identify issues and organize evidence, but final legal compliance requires expert review and, ideally, testing with disabled users and assistive technology users.
+It is built to be honest about compliance: automated findings can reveal likely WCAG, ADA, and Section 508 blockers, but they do not prove legal conformance on their own. Access Audit helps organizations prepare better remediation evidence and expert review workflows without pretending software alone can certify accessibility.
 
 ## Live App
 

@@ -2,7 +2,7 @@
   "name": "access-audit",
   "version": "0.1.0",
   "private": true,
-  "description": "Access Audit: explainable WCAG, ADA, and Section 508 accessibility audit assistant.",
+  "description": "Access Audit: a hosted accessibility audit workspace for scans, evidence, remediation tracking, and risk reports.",
   "packageManager": "pnpm@11.5.3",
   "scripts": {
     "dev": "next dev",

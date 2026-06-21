@@ -7,7 +7,8 @@ import { APP_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: `${APP_NAME} | Accessibility Audit Assistant`,
-  description: "Explainable WCAG, ADA, and Section 508 accessibility audit assistant."
+  description:
+    "Hosted accessibility audit workspace for Playwright scans, keyboard checks, WCAG review, evidence capture, and remediation reports."
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
