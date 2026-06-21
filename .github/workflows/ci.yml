@@ -21,7 +21,7 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --no-frozen-lockfile --config.dangerously-allow-all-builds=true
 
       - name: Install Playwright Chromium
         run: pnpm exec playwright install --with-deps chromium
