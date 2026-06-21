@@ -1,8 +1,8 @@
 import { Worker } from "bullmq";
-import { createRedisConnection, SCAN_QUEUE_NAME } from "../lib/scanner/redis";
+import { createRedisConnectionOptions, SCAN_QUEUE_NAME } from "../lib/scanner/redis";
 import { runScanById } from "../lib/scanner/run-scan";
 
-const connection = createRedisConnection();
+const connection = createRedisConnectionOptions();
 const concurrency = Number(process.env.ACCESS_AUDIT_SCAN_CONCURRENCY ?? 1);
 
 const worker = new Worker(
@@ -29,7 +29,6 @@ worker.on("failed", (job, error) => {
 async function shutdown() {
   console.log("[worker] shutting down");
   await worker.close();
-  await connection.quit();
 }
 
 process.on("SIGINT", () => void shutdown().then(() => process.exit(0)));

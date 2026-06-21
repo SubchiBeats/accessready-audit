@@ -1,7 +1,7 @@
 import { Queue } from "bullmq";
 import { updateScan } from "@/lib/store";
 import type { Scan } from "@/lib/types";
-import { createRedisConnection, isRedisQueueEnabled, SCAN_QUEUE_NAME } from "@/lib/scanner/redis";
+import { createRedisConnectionOptions, isRedisQueueEnabled, SCAN_QUEUE_NAME } from "@/lib/scanner/redis";
 import { runScanById } from "@/lib/scanner/run-scan";
 
 type JobState = {
@@ -26,7 +26,7 @@ function jobs() {
 function getBullQueue() {
   if (!bullQueue) {
     bullQueue = new Queue(SCAN_QUEUE_NAME, {
-      connection: createRedisConnection(),
+      connection: createRedisConnectionOptions(),
       defaultJobOptions: {
         attempts: 1,
         removeOnComplete: 100,
