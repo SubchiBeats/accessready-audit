@@ -7,7 +7,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ scanId: st
   const data = await getAuditData();
   const scan = data.scans.find((item) => item.id === scanId);
   if (!scan) return NextResponse.json({ error: "Scan not found." }, { status: 404 });
-  return NextResponse.json({ scan, job: getJob(scanId) });
+  return NextResponse.json({ scan, job: await getJob(scanId) });
 }
 
 export async function DELETE(_: Request, { params }: { params: Promise<{ scanId: string }> }) {

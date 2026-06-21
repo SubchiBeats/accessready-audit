@@ -5,6 +5,7 @@ import type { Page } from "playwright";
 import type { NormalizedFindingInput, Scan, ScanConfig, ScannedPage } from "@/lib/types";
 import { TOOL_VERSION } from "@/lib/constants";
 import { validateScanUrl } from "@/lib/security/url-validation";
+import { persistArtifact } from "@/lib/supabase/artifacts";
 import { slugify, unique } from "@/lib/utils";
 import { runCustomChecks } from "@/lib/scanner/custom-checks";
 import { exploreKeyboard } from "@/lib/scanner/keyboard-explorer";
@@ -83,7 +84,8 @@ async function scanPage(params: {
 }) {
   const { page, scan, config, url, viewport, artifactRoot, axeSource } = params;
   const pageId = `page-${randomUUID()}`;
-  const pageDir = path.join(artifactRoot, `${slugify(url).slice(0, 80)}-${viewport}`);
+  const artifactPrefix = `${slugify(url).slice(0, 80)}-${viewport}`;
+  const pageDir = path.join(artifactRoot, artifactPrefix);
   await mkdir(pageDir, { recursive: true });
 
   const response = await page.goto(url, { waitUntil: "networkidle", timeout: 45_000 });
@@ -96,10 +98,22 @@ async function scanPage(params: {
     .catch(() => undefined);
   const screenshotPath = path.join(pageDir, "viewport.png");
   await page.screenshot({ path: screenshotPath, fullPage: true }).catch(() => undefined);
+  const persistedScreenshotPath = await persistArtifact({
+    localPath: screenshotPath,
+    scanId: scan.id,
+    artifactName: `${artifactPrefix}/viewport.png`,
+    contentType: "image/png"
+  });
 
   const html = await page.content();
   const domSnapshotPath = path.join(pageDir, "dom.html");
   await writeFile(domSnapshotPath, html, "utf8");
+  const persistedDomSnapshotPath = await persistArtifact({
+    localPath: domSnapshotPath,
+    scanId: scan.id,
+    artifactName: `${artifactPrefix}/dom.html`,
+    contentType: "text/html; charset=utf-8"
+  });
 
   await page.addScriptTag({ content: axeSource });
   const axeResults = await page.evaluate(async () => {
@@ -119,6 +133,12 @@ async function scanPage(params: {
   });
   const rawAxePath = path.join(pageDir, "axe.json");
   await writeFile(rawAxePath, JSON.stringify(axeResults, null, 2), "utf8");
+  const persistedRawAxePath = await persistArtifact({
+    localPath: rawAxePath,
+    scanId: scan.id,
+    artifactName: `${artifactPrefix}/axe.json`,
+    contentType: "application/json"
+  });
 
   const pageRecord: ScannedPage = {
     id: pageId,
@@ -129,9 +149,9 @@ async function scanPage(params: {
     title,
     httpStatus: status,
     viewport,
-    screenshotPath,
-    domSnapshotPath,
-    rawAxePath,
+    screenshotPath: persistedScreenshotPath,
+    domSnapshotPath: persistedDomSnapshotPath,
+    rawAxePath: persistedRawAxePath,
     discoveredLinks: await discoverLinks(page),
     createdAt: new Date().toISOString()
   };
@@ -144,7 +164,7 @@ async function scanPage(params: {
     url,
     viewport,
     mode: config.scanMode,
-    screenshotPath
+    screenshotPath: persistedScreenshotPath
   });
   const customFindings = await runCustomChecks(page, {
     scanId: scan.id,
@@ -153,7 +173,7 @@ async function scanPage(params: {
     url,
     viewport,
     mode: config.scanMode,
-    screenshotPath
+    screenshotPath: persistedScreenshotPath
   });
   const keyboard = viewport === "desktop" ? await exploreKeyboard(page, {
     scanId: scan.id,

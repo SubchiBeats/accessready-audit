@@ -196,6 +196,16 @@ create table reports (
   artifact_path text
 );
 
+-- Shared application state for the local-first demo store when deployed across
+-- separate web and worker containers. The normalized tables above remain the
+-- long-term production model; this JSON state keeps the current app usable on
+-- hosted services immediately.
+create table audit_state (
+  id text primary key,
+  data jsonb not null,
+  updated_at timestamptz not null default now()
+);
+
 create index findings_project_status_idx on findings(project_id, status);
 create index findings_scan_severity_idx on findings(scan_id, severity);
 create index scans_project_created_idx on scans(project_id, created_at desc);

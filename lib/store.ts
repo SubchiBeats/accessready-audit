@@ -3,6 +3,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { createDemoData } from "@/lib/demo-data";
 import { calculateScoreSummary } from "@/lib/scoring";
+import { createSupabaseServiceClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import type {
   AuditData,
   Finding,
@@ -18,10 +19,13 @@ import { TOOL_VERSION } from "@/lib/constants";
 
 const dataDir = path.join(process.cwd(), ".access-audit");
 const dataPath = path.join(dataDir, "data.json");
+const stateId = "default";
 
 let memoryCache: AuditData | undefined;
 
 export async function getAuditData(): Promise<AuditData> {
+  if (isSupabaseConfigured()) return structuredClone(await getSupabaseAuditData());
+
   if (memoryCache) return structuredClone(memoryCache);
   await mkdir(dataDir, { recursive: true });
   try {
@@ -35,9 +39,41 @@ export async function getAuditData(): Promise<AuditData> {
 }
 
 export async function writeAuditData(data: AuditData) {
+  if (isSupabaseConfigured()) {
+    await writeSupabaseAuditData(data);
+    return;
+  }
+
   memoryCache = structuredClone(data);
   await mkdir(dataDir, { recursive: true });
   await writeFile(dataPath, JSON.stringify(data, null, 2), "utf8");
+}
+
+async function getSupabaseAuditData() {
+  const supabase = createSupabaseServiceClient();
+  const { data, error } = await supabase
+    .from("audit_state")
+    .select("data")
+    .eq("id", stateId)
+    .maybeSingle();
+
+  if (error) throw new Error(`Unable to read Supabase audit state: ${error.message}`);
+  if (data?.data) return data.data as AuditData;
+
+  const demo = createDemoData();
+  await writeSupabaseAuditData(demo);
+  return demo;
+}
+
+async function writeSupabaseAuditData(data: AuditData) {
+  const supabase = createSupabaseServiceClient();
+  const { error } = await supabase.from("audit_state").upsert({
+    id: stateId,
+    data,
+    updated_at: new Date().toISOString()
+  });
+
+  if (error) throw new Error(`Unable to write Supabase audit state: ${error.message}`);
 }
 
 export async function createProject(input: {

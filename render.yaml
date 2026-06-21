@@ -1,0 +1,47 @@
+services:
+  - type: web
+    name: access-audit-web
+    env: docker
+    plan: starter
+    healthCheckPath: /api/health
+    envVars:
+      - key: NEXT_PUBLIC_DEMO_MODE
+        value: "false"
+      - key: ACCESS_AUDIT_ALLOW_PRIVATE_NETWORK
+        value: "false"
+      - key: ACCESS_AUDIT_MAX_PAGES
+        value: "30"
+      - key: ACCESS_AUDIT_SCAN_CONCURRENCY
+        value: "1"
+      - key: ACCESS_AUDIT_RATE_LIMIT_MS
+        value: "750"
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: access-audit-redis
+          property: connectionString
+  - type: worker
+    name: access-audit-worker
+    env: docker
+    plan: starter
+    dockerCommand: pnpm start:worker
+    envVars:
+      - key: NEXT_PUBLIC_DEMO_MODE
+        value: "false"
+      - key: ACCESS_AUDIT_ALLOW_PRIVATE_NETWORK
+        value: "false"
+      - key: ACCESS_AUDIT_MAX_PAGES
+        value: "30"
+      - key: ACCESS_AUDIT_SCAN_CONCURRENCY
+        value: "1"
+      - key: ACCESS_AUDIT_RATE_LIMIT_MS
+        value: "750"
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: access-audit-redis
+          property: connectionString
+  - type: redis
+    name: access-audit-redis
+    plan: starter
+    ipAllowList: []

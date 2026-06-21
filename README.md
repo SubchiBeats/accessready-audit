@@ -75,6 +75,17 @@ The GitHub Pages demo supports dashboard review, finding filters, status changes
 
 Deploy the Next.js app to a Node host such as Vercel, Render, Fly.io, Railway, or a container platform. Use Supabase for auth/database/storage and a durable worker queue for Playwright scans. See `docs/deployment.md`.
 
+Recommended hands-off path:
+
+1. Create a Supabase project.
+2. Connect this GitHub repo to Railway.
+3. Add a Railway Redis service.
+4. Deploy one Railway service as `web` with `pnpm start:web`.
+5. Deploy one Railway service as `worker` with `pnpm start:worker`.
+6. Paste the Supabase env vars into both services.
+
+The app automatically uses BullMQ when `REDIS_URL` exists and falls back to an in-process queue for local demo mode.
+
 ## Environment Variables
 
 See `.env.example`.

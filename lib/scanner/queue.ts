@@ -1,10 +1,14 @@
-import { appendScanResults, getAuditData, updateScan } from "@/lib/store";
+import { Queue } from "bullmq";
+import { updateScan } from "@/lib/store";
 import type { Scan } from "@/lib/types";
-import { runPlaywrightScan } from "@/lib/scanner/playwright-scanner";
+import { createRedisConnection, isRedisQueueEnabled, SCAN_QUEUE_NAME } from "@/lib/scanner/redis";
+import { runScanById } from "@/lib/scanner/run-scan";
 
 type JobState = {
   scanId: string;
   status: "queued" | "running" | "completed" | "failed" | "cancelled";
+  provider?: "memory" | "bullmq";
+  jobId?: string;
   error?: string;
 };
 
@@ -12,22 +16,81 @@ const globalJobs = globalThis as typeof globalThis & {
   __accessAuditJobs?: Map<string, JobState>;
 };
 
+let bullQueue: Queue | undefined;
+
 function jobs() {
   if (!globalJobs.__accessAuditJobs) globalJobs.__accessAuditJobs = new Map();
   return globalJobs.__accessAuditJobs;
 }
 
-export function getJob(scanId: string) {
+function getBullQueue() {
+  if (!bullQueue) {
+    bullQueue = new Queue(SCAN_QUEUE_NAME, {
+      connection: createRedisConnection(),
+      defaultJobOptions: {
+        attempts: 1,
+        removeOnComplete: 100,
+        removeOnFail: 500
+      }
+    });
+  }
+  return bullQueue;
+}
+
+export async function getJob(scanId: string): Promise<JobState | undefined> {
+  if (isRedisQueueEnabled()) {
+    const job = await getBullQueue().getJob(scanId);
+    if (!job) return undefined;
+    const state = await job.getState();
+    return {
+      scanId,
+      jobId: job.id,
+      provider: "bullmq",
+      status: normalizeBullState(state),
+      error: job.failedReason
+    };
+  }
+
   return jobs().get(scanId);
 }
 
 export async function enqueueScan(scan: Scan) {
-  jobs().set(scan.id, { scanId: scan.id, status: "queued" });
+  if (isRedisQueueEnabled()) {
+    const job = await getBullQueue().add(
+      "run-scan",
+      { scanId: scan.id },
+      {
+        jobId: scan.id
+      }
+    );
+    return {
+      scanId: scan.id,
+      status: "queued",
+      provider: "bullmq",
+      jobId: job.id
+    } satisfies JobState;
+  }
+
+  jobs().set(scan.id, { scanId: scan.id, status: "queued", provider: "memory" });
   void run(scan);
-  return getJob(scan.id);
+  return jobs().get(scan.id);
 }
 
 export async function cancelScan(scanId: string) {
+  if (isRedisQueueEnabled()) {
+    const queue = getBullQueue();
+    const job = await queue.getJob(scanId);
+    const state = job ? await job.getState() : undefined;
+    if (job && state !== "active") await job.remove();
+    await updateScan(scanId, { status: "cancelled", completedAt: new Date().toISOString() });
+    return {
+      scanId,
+      status: "cancelled",
+      provider: "bullmq",
+      jobId: job?.id
+    } satisfies JobState;
+  }
+
   const job = jobs().get(scanId);
   if (job && ["queued", "running"].includes(job.status)) {
     job.status = "cancelled";
@@ -40,15 +103,10 @@ async function run(scan: Scan) {
   const job = jobs().get(scan.id);
   if (!job) return;
   job.status = "running";
-  await updateScan(scan.id, { status: "running", startedAt: new Date().toISOString() });
 
   try {
-    const data = await getAuditData();
-    const config = data.scanConfigs.find((item) => item.id === scan.configId);
-    if (!config) throw new Error("Scan configuration not found.");
-    const result = await runPlaywrightScan(scan, config);
+    await runScanById(scan.id);
     if (jobs().get(scan.id)?.status === "cancelled") return;
-    await appendScanResults({ scan, findings: result.findings, pages: result.pages, instances: result.instances });
     job.status = "completed";
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown scanner failure.";
@@ -56,4 +114,14 @@ async function run(scan: Scan) {
     job.error = message;
     await updateScan(scan.id, { status: "failed", failedReason: message, completedAt: new Date().toISOString() });
   }
+}
+
+function normalizeBullState(state: string): JobState["status"] {
+  if (state === "completed") return "completed";
+  if (state === "failed") return "failed";
+  if (state === "active") return "running";
+  if (state === "delayed" || state === "waiting" || state === "prioritized" || state === "waiting-children") {
+    return "queued";
+  }
+  return "queued";
 }

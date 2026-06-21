@@ -13,6 +13,7 @@ alter table evidence_files enable row level security;
 alter table comments enable row level security;
 alter table remediation_tasks enable row level security;
 alter table reports enable row level security;
+alter table audit_state enable row level security;
 
 create or replace function is_project_member(project_uuid uuid)
 returns boolean
@@ -86,3 +87,8 @@ with check (is_project_member(project_id));
 create policy "reports project members" on reports
 for all using (is_project_member(project_id))
 with check (is_project_member(project_id));
+
+-- Accessed by the service role from the hosted web/worker services.
+create policy "audit state service managed" on audit_state
+for all using (false)
+with check (false);
